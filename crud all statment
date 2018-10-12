@@ -1,0 +1,90 @@
+package Controller;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import Util.connection;
+
+/**
+ * Servlet implementation class insert1
+ */
+@WebServlet("/insert1")
+public class insert1 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public insert1() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		   String a1= request.getParameter("user");
+	       String a2= request.getParameter("Email");
+	       String a3= request.getParameter("phone");
+	       String a4= request.getParameter("pass");
+	       String btn=request.getParameter("btn");
+	      
+	       Connection con= connection.getconnection();      
+	       Statement st= null;
+	    		if(btn.equals("Save")) {
+	    			
+	    			   try {
+						    st = con.createStatement();
+						    String sql="insert into abc(user,email,phone,pass) values ('"+a1+"','"+a2+"','"+a3+"','"+a4+"')";
+						    st.executeUpdate(sql);
+						    con.close();
+						    response.sendRedirect("From.jsp");
+					
+		    		   } catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+			
+			}
+	    		else if(btn.equals("Update")) {
+	    			int NO=Integer.parseInt(request.getParameter("NO"));
+	    		         try {
+							st = con.createStatement();
+							String sql2="update abc set user='"+a1+"',email='"+a2+"',phone='"+a3+"',pass='"+a4+"'where Auto_no='"+NO+"'";
+							int b=st.executeUpdate(sql2);
+							con.close();
+							response.sendRedirect("From.jsp");
+							
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	    		}
+	    		else if(btn.equals("Delete")) {
+	    			int NO= Integer.parseInt(request.getParameter("NO"));
+	    			try {
+						 st = con.createStatement();
+						 String sql3="delete from abc where Auto_no='"+NO+"'";
+						 st.executeUpdate(sql3);
+						 con.close();
+						 response.sendRedirect("From.jsp");
+					} catch (Exception e) {
+						// TODO: handle exception
+						e.printStackTrace();
+					}
+	    		}
+	
+	    		}
+	}
+
+
