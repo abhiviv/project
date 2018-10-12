@@ -1,0 +1,121 @@
+<%@page import="Util.connection"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<style type="text/css">
+.column2 {
+    float: right;
+    width: 39%;
+	margin-right:10%;
+      height:97vh;
+	
+}
+
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+</style>
+</head>
+<body>
+<form action="insert1" method="post" id="fff">
+
+  <table>
+   <input type="text" style="display:none" name="NO" class="inputs" Autofocus  >
+      <tr>
+      <td>Username</td>
+      <td><label>:</label></td>
+      <td><input type="text" name="user" placeholder="Enter The Name"></td>
+      </tr>
+      <tr>
+      <td>E-Mail</td>
+      <td><label>:</label></td>
+      <td><input type="text" name="Email" placeholder="Email"></td>
+      </tr>
+  <tr>
+      <td>phone</td>
+      <td><label>:</label></td>
+      <td><input type="number" name="phone" placeholder="Email"></td>
+      </tr>
+      <tr>
+      <td>pass</td>
+      <td><label>:</label></td>
+      <td><input type="text" name="pass" placeholder="Email"></td>
+      </tr>
+      <tr>
+      <td>
+   <input type="submit" class="button1"  name="btn"  value="New">
+<input type="submit" class="button1"   name="btn"value="Save" id="sav">
+<input type="submit" class="button1" name="btn"  value="Delete">
+<input type="submit" class="button1" name="btn"  value="Exit"></td>
+      </tr>
+      
+  </table>
+  
+   <div class="column2" >
+ <div style="padding:0px;background-color: #2196F3;width:97.2%; ">
+ <table style="width: 100%;;color: white">
+ <tr style="width:50%";>
+  <th style="width:20%;white-space:nowrap">sr no</th>
+ <th style="width:20%;white-space:nowrap">username</th>
+  <th style="width:25%;text-align:left"> E-Mail</th>
+  <th style="width:20%;white-space:nowrap">Phone</th>
+  <th style="width:25%;text-align:left"> Pass</th>
+   </table>
+   </div>
+   <div>
+   <table id="myTable">
+ <%
+ try{
+	 Connection con=connection.getconnection();
+	 PreparedStatement ps=con.prepareStatement("select * from abc");
+	 ResultSet rs=ps.executeQuery();
+	 while(rs.next()){
+ %>
+  
+  
+  <tr style="border-collapse: collapse;" onclick="abc(this);">
+  <td style="width:30%; text-align: center; border-bottom: 1px ridge #2196F3;border-collapse: collapse; font-family: serif;" ><%=rs.getString("Auto_no") %></td>
+			<td style="width:30%; text-align: center; border-bottom: 1px ridge #2196F3;border-collapse: collapse; font-family: serif;" ><%=rs.getString("user") %></td>
+			<td style="width:60%;text-align: center;border-bottom: 1px ridge #2196F3;border-collapse: collapse; " ><%=rs.getString("email") %></td>
+			<td style="width:30%; text-align: center; border-bottom: 1px ridge #2196F3;border-collapse: collapse; font-family: serif;" ><%=rs.getString("phone") %></td>
+			<td style="width:60%;text-align: center;border-bottom: 1px ridge #2196F3;border-collapse: collapse; " ><%=rs.getString("pass") %></td>
+			
+			</tr>
+<%
+	 }}
+ catch (Exception e) {
+		e.printStackTrace();
+	}
+%>
+</table>
+</div>
+
+<script>
+    function abc(a){
+        var b=a.rowIndex;
+        var frm=document.getElementById("fff");
+        var tbl=document.getElementById("myTable");
+        frm.NO.value=tbl.rows[b].cells[0].innerHTML;
+        frm.user.value=tbl.rows[b].cells[1].innerHTML;
+        frm.Email.value=tbl.rows[b].cells[2].innerHTML;
+        frm.phone.value=tbl.rows[b].cells[3].innerHTML;
+        frm.pass.value=tbl.rows[b].cells[4].innerHTML;
+        
+        document.getElementById('sav').value = "Update" ; 
+    } 
+</script>
+
+</form>
+</body>
+</html>
